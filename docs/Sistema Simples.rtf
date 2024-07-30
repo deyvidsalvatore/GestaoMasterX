@@ -1,0 +1,193 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1046{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset2 Symbol;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang22\par
+### **M\'f3dulos B\'e1sicos:**\par
+\par
+1. **Funcion\'e1rios:**\par
+   - **Cadastro e Dados Pessoais:** Informa\'e7\'f5es b\'e1sicas como nome, cargo, e contato.\par
+   - **Registro de Horas:** Simples sistema para marcar entrada e sa\'edda.\par
+\par
+2. **Gestores:**\par
+   - **Vis\'e3o da Equipe:** Acesso \'e0 lista de funcion\'e1rios sob sua supervis\'e3o.\par
+   - **Avalia\'e7\'f5es B\'e1sicas:** Ferramenta para fornecer feedback simples e definir metas.\par
+\par
+3. **Departamentos:**\par
+   - **Estrutura e Contato:** Informa\'e7\'f5es b\'e1sicas sobre os departamentos e suas responsabilidades.\par
+   - **Controle de Recursos:** Registro simples de recursos alocados e disponibilidade.\par
+\par
+### **Funcionalidades Integradas:**\par
+\par
+- **Acesso e Permiss\'f5es:** Diferentes n\'edveis de acesso para Funcion\'e1rios, Gestores e Administradores.\par
+- **Comunica\'e7\'e3o B\'e1sica:** Ferramenta de mensagens para comunica\'e7\'e3o interna simples.\par
+- **Relat\'f3rios B\'e1sicos:** Relat\'f3rios de horas trabalhadas e feedbacks recebidos.\par
+\par
+### **Fluxo de Trabalho Simplificado:**\par
+\par
+1. **Funcion\'e1rio:**\par
+   - Faz login no sistema para registrar suas horas de trabalho.\par
+   - Envia e recebe feedbacks e visualiza suas metas.\par
+\par
+2. **Gestor:**\par
+   - Acessa o painel para ver os funcion\'e1rios e suas horas.\par
+   - Adiciona feedbacks e avalia o progresso dos funcion\'e1rios.\par
+\par
+3. **Departamento:**\par
+   - Gerencia os recursos e registra a aloca\'e7\'e3o.\par
+   - Acessa informa\'e7\'f5es b\'e1sicas sobre a estrutura do departamento.\par
+\par
+### **Exemplo de Implementa\'e7\'e3o:**\par
+\par
+1. **Cadastro de Funcion\'e1rios:**\par
+   - Interface simples para adicionar e editar informa\'e7\'f5es pessoais e cargo.\par
+\par
+2. **Registro de Horas:**\par
+   - Bot\'f5es para marcar entrada e sa\'edda com data e hora.\par
+\par
+3. **Painel do Gestor:**\par
+   - Vis\'e3o geral dos funcion\'e1rios, com acesso r\'e1pido a horas registradas e feedbacks.\par
+\par
+4. **Controle de Recursos:**\par
+   - Lista simples para registrar e monitorar recursos como equipamentos e materiais.\par
+\par
+O **"Gest\'e3o Simples"** \'e9 uma solu\'e7\'e3o eficiente e direta, ideal para pequenas e m\'e9dias empresas que precisam de um sistema b\'e1sico para gerenciamento de pessoal, com menos complexidade e custo reduzido.\par
+\par
+Entidades no Sistema Simplificado "Gest\'e3o Simples"\par
+\par
+\b Funcion\'e1rio\b0\par
+ID Funcion\'e1rio: Identificador \'fanico do funcion\'e1rio.\par
+Nome: Nome completo do funcion\'e1rio.\par
+Cargo: Cargo ou fun\'e7\'e3o que o funcion\'e1rio exerce.\par
+Departamento: Departamento ao qual o funcion\'e1rio pertence.\par
+Contato: Informa\'e7\'f5es de contato, como e-mail e telefone.\par
+Horas Trabalhadas: Registro de entrada e sa\'edda.\par
+Feedback: Coment\'e1rios e avalia\'e7\'f5es recebidas.\par
+\par
+\b Gestor (Extende Funcion\'e1rio)\b0\par
+ID Gestor: Identificador \'fanico do gestor.\par
+Nome: Nome completo do gestor. (Herdado do Funcion\'e1rio)\par
+Cargo: Cargo ou fun\'e7\'e3o do gestor. (Herdado do Funcion\'e1rio)\par
+Departamento: Departamento ao qual o gestor pertence. (Herdado do Funcion\'e1rio)\par
+Contato: Informa\'e7\'f5es de contato, como e-mail e telefone. (Herdado do Funcion\'e1rio)\par
+Horas Trabalhadas: Registro de entrada e sa\'edda. (Herdado do Funcion\'e1rio)\par
+Feedback: Coment\'e1rios e avalia\'e7\'f5es recebidas. (Herdado do Funcion\'e1rio)\par
+Equipe: Lista de funcion\'e1rios sob sua supervis\'e3o.\par
+Responsabilidades Adicionais: Tarefas e responsabilidades extras relacionadas \'e0 fun\'e7\'e3o de gest\'e3o.\par
+\par
+\b Departamento\b0\par
+ID Departamento: Identificador \'fanico do departamento.\par
+Nome: Nome do departamento.\par
+Descri\'e7\'e3o: Descri\'e7\'e3o breve sobre o que o departamento faz.\par
+Recursos: Registro de recursos alocados e sua disponibilidade.\par
+Gestor Respons\'e1vel: Refer\'eancia ao gestor respons\'e1vel pelo departamento (que \'e9 um tipo de funcion\'e1rio).\par
+\b\par
+Registro de Horas\par
+\b0 ID Registro: Identificador \'fanico do registro de horas.\par
+ID Funcion\'e1rio: Identificador do funcion\'e1rio associado ao registro.\par
+Data: Data do registro.\par
+Hora de Entrada: Hora em que o funcion\'e1rio come\'e7ou o expediente.\par
+Hora de Sa\'edda: Hora em que o funcion\'e1rio terminou o expediente.\par
+Horas Trabalhadas: Total de horas trabalhadas no dia.\par
+\par
+\b Feedback\b0\par
+ID Feedback: Identificador \'fanico do feedback.\par
+ID Funcion\'e1rio: Identificador do funcion\'e1rio que recebeu o feedback.\par
+ID Gestor: Identificador do gestor que forneceu o feedback.\par
+Data: Data em que o feedback foi dado.\par
+Coment\'e1rio: Texto do feedback fornecido.\par
+Meta: Metas ou objetivos relacionados ao feedback, se aplic\'e1vel.\par
+\par
+\b Relacionamentos Entre Entidades:\par
+\b0 Funcion\'e1rio e Gestor: Gestor \'e9 uma especializa\'e7\'e3o de Funcion\'e1rio (rela\'e7\'e3o de heran\'e7a).\par
+Funcion\'e1rio e Departamento: Cada funcion\'e1rio pertence a um departamento (rela\'e7\'e3o muitos-para-um).\par
+Departamento e Gestor: Cada departamento tem um gestor respons\'e1vel (rela\'e7\'e3o um-para-um).\par
+Registro de Horas e Funcion\'e1rio: Cada registro de horas est\'e1 associado a um funcion\'e1rio (rela\'e7\'e3o muitos-para-um).\par
+Feedback e Funcion\'e1rio: Cada feedback \'e9 associado a um funcion\'e1rio (rela\'e7\'e3o muitos-para-um).\par
+Feedback e Gestor: Cada feedback \'e9 fornecido por um gestor (rela\'e7\'e3o muitos-para-um).\par
+\b\par
+\i 1. Caso de Uso: Registrar Horas Trabalhadas\i0\par
+\b0 Ator: Funcion\'e1rio\par
+Descri\'e7\'e3o: O funcion\'e1rio registra seu hor\'e1rio de entrada e sa\'edda.\par
+Passos:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O funcion\'e1rio faz login no sistema.\par
+{\pntext\f1\'B7\tab}O funcion\'e1rio acessa a funcionalidade de registro de horas.\par
+{\pntext\f1\'B7\tab}O funcion\'e1rio insere a hora de entrada e a hora de sa\'edda.\par
+{\pntext\f1\'B7\tab}O sistema salva o registro de horas.\par
+
+\pard\sa200\sl276\slmult1\b 2. Caso de Uso: Visualizar Horas Trabalhadas\b0\par
+Ator: Funcion\'e1rio\par
+Descri\'e7\'e3o: O funcion\'e1rio visualiza o hist\'f3rico de suas horas trabalhadas.\par
+Passos:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O funcion\'e1rio faz login no sistema.\par
+{\pntext\f1\'B7\tab}O funcion\'e1rio acessa a visualiza\'e7\'e3o de horas trabalhadas.\par
+{\pntext\f1\'B7\tab}O sistema exibe o hist\'f3rico de horas registradas.\par
+
+\pard\sa200\sl276\slmult1\b 3. Caso de Uso: Fornecer Feedback\par
+\b0 Ator: Gestor\par
+Descri\'e7\'e3o: O gestor fornece feedback para um funcion\'e1rio.\par
+Passos:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O gestor faz login no sistema.\par
+{\pntext\f1\'B7\tab}O gestor acessa a lista de funcion\'e1rios.\par
+{\pntext\f1\'B7\tab}O gestor seleciona um funcion\'e1rio e insere o feedback.\par
+{\pntext\f1\'B7\tab}O sistema salva o feedback e o associa ao funcion\'e1rio.\par
+
+\pard\sa200\sl276\slmult1\b 4. Caso de Uso: Visualizar Feedback Recebido\b0\par
+Ator: Funcion\'e1rio\par
+Descri\'e7\'e3o: O funcion\'e1rio visualiza o feedback recebido dos gestores.\par
+Passos:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O funcion\'e1rio faz login no sistema.\par
+{\pntext\f1\'B7\tab}O funcion\'e1rio acessa a se\'e7\'e3o de feedback.\par
+{\pntext\f1\'B7\tab}O sistema exibe todos os feedbacks recebidos.\par
+
+\pard\sa200\sl276\slmult1\b 5. Caso de Uso: Adicionar Novo Funcion\'e1rio\par
+\b0 Ator: Administrador\par
+Descri\'e7\'e3o: O administrador adiciona um novo funcion\'e1rio ao sistema.\par
+Passos:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O administrador faz login no sistema.\par
+{\pntext\f1\'B7\tab}O administrador acessa a se\'e7\'e3o de gest\'e3o de funcion\'e1rios.\par
+{\pntext\f1\'B7\tab}O administrador insere as informa\'e7\'f5es do novo funcion\'e1rio.\par
+{\pntext\f1\'B7\tab}O sistema salva as informa\'e7\'f5es e adiciona o funcion\'e1rio ao banco de dados.\par
+
+\pard\sa200\sl276\slmult1\b 6. Caso de Uso: Visualizar Funcion\'e1rios da Equipe\par
+\b0 Ator: Gestor\par
+Descri\'e7\'e3o: O gestor visualiza a lista de funcion\'e1rios sob sua supervis\'e3o.\par
+Passos:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O gestor faz login no sistema.\par
+{\pntext\f1\'B7\tab}O gestor acessa a lista de funcion\'e1rios da equipe.\par
+{\pntext\f1\'B7\tab}O sistema exibe todos os funcion\'e1rios subordinados ao gestor.\par
+
+\pard\sa200\sl276\slmult1\b 7. Caso de Uso: Adicionar Novo Departamento\b0\par
+Ator: Administrador\par
+Descri\'e7\'e3o: O administrador adiciona um novo departamento ao sistema.\par
+Passos:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O administrador faz login no sistema.\par
+{\pntext\f1\'B7\tab}O administrador acessa a se\'e7\'e3o de gest\'e3o de departamentos.\par
+{\pntext\f1\'B7\tab}O administrador insere as informa\'e7\'f5es do novo departamento.\par
+{\pntext\f1\'B7\tab}O sistema salva as informa\'e7\'f5es e adiciona o departamento ao banco de dados.\par
+
+\pard\sa200\sl276\slmult1\b 8. Caso de Uso: Designar Gestor a um Departamento\par
+\b0 Ator: Administrador\par
+Descri\'e7\'e3o: O administrador designa um gestor para um departamento.\par
+Passos:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O administrador faz login no sistema.\par
+{\pntext\f1\'B7\tab}O administrador acessa a se\'e7\'e3o de gest\'e3o de departamentos.\par
+{\pntext\f1\'B7\tab}O administrador seleciona um departamento e designa um gestor para ele.\par
+
+\pard\sa200\sl276\slmult1 O sistema atualiza o departamento com o gestor designado.\par
+\b 9. Caso de Uso: Visualizar Recursos do Departamento\b0\par
+Ator: Gestor\par
+Descri\'e7\'e3o: O gestor visualiza os recursos alocados ao seu departamento.\par
+Passos:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O gestor faz login no sistema.\par
+{\pntext\f1\'B7\tab}O gestor acessa a se\'e7\'e3o de recursos do departamento.\par
+{\pntext\f1\'B7\tab}O sistema exibe todos os recursos alocados ao departamento.\par
+}
+ 
