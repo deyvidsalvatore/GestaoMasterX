@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao Sistema de Gestão</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .banner {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <img src="https://i.ibb.co/xzZHFn9/gestaomasterx-body.jpg" alt="Banner" class="banner" />
+
+        <!-- Conteúdo do e-mail -->
+        <h2>Olá, {{nome}}!</h2>
+        <p>Bem-vindo à Gestão MasterX! Estamos muito felizes em tê-lo(a) conosco.</p>
+        <p>Segue abaixo as suas credenciais de acesso:</p>
+        <p><strong>Usuário:</strong> {{username}}</p>
+        <p><strong>Senha:</strong> {{password}}</p>
+        <p>Por questões de segurança, recomendamos que você altere sua senha após o primeiro login. Caso tenha dúvidas sobre como fazer isso, consulte nosso <a href="https://www.exemplo.com/faq">FAQ</a> ou entre em contato com nosso suporte.</p>
+        <p>Mantenha suas credenciais seguras e não compartilhe sua senha com ninguém. Caso suspeite de qualquer atividade suspeita em sua conta, entre em contato conosco imediatamente.</p>
+        <p>Se precisar de ajuda ou tiver alguma pergunta, estamos à disposição para ajudar!</p>
+
+        <div class="footer">
+            <p>Atenciosamente,</p>
+            <p>Equipe Gestão MasterX</p>
+            <p><a href="mailto:gestaomasterx@gmail.com">gestaomasterx@gmail.com</a> | <a href="https://deyvidsantos.vercel.app">deyvidsantos.vercel.app</a></p>
+        </div>
+    </div>
+</body>
+</html>

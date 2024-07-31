@@ -1,12 +1,17 @@
 package com.deyvidsalvatore.web.gestaomasterx.domain.administracao;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StreamUtils;
 
+import com.deyvidsalvatore.web.gestaomasterx.config.EmailServiceConfig;
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.Funcionario;
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.FuncionarioRepository;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.Usuario;
@@ -21,10 +26,16 @@ public class FuncionarioCRUDService {
 
     private final FuncionarioRepository funcionarioRepository;
     private final UsuarioRepository usuarioRepository;
-
-    public FuncionarioCRUDService(FuncionarioRepository funcionarioRepository, UsuarioRepository usuarioRepository) {
+    private final EmailServiceConfig emailServiceConfig;
+    
+    public FuncionarioCRUDService(
+    		FuncionarioRepository funcionarioRepository, 
+    		UsuarioRepository usuarioRepository,
+    		EmailServiceConfig emailServiceConfig
+    ) {
         this.funcionarioRepository = funcionarioRepository;
         this.usuarioRepository = usuarioRepository;
+		this.emailServiceConfig = emailServiceConfig;
     }
 
     @Transactional
@@ -37,7 +48,7 @@ public class FuncionarioCRUDService {
             LOG.info("Conta de usuário já existe para o domínio: {}", dominio);
         } catch (UsuarioNaoEncontradoException e) {
             Usuario usuario = new Usuario();
-            usuario.setUsername(dominio);
+            usuario.setUsername(generateFuncionarioUsername(funcionario, dominio));
             usuario.setPassword(dominio + "@p4ssw0rd");
             usuario.setRole(UsuarioRole.FUNCIONARIO);
             usuario.setFuncionario(funcionario);
@@ -49,6 +60,30 @@ public class FuncionarioCRUDService {
         funcionario.setUsuario(usuarioRepository.findByUsername(dominio));
         this.funcionarioRepository.save(funcionario);
     }
+
+    public void enviarCredenciaisFuncionario(String to, String username, String password) {
+    	String subject = "Bem-vindo à Gestão MasterX - Suas Credenciais";
+        String htmlContent = loadAndProcessTemplate(username, password);
+        this.emailServiceConfig.sendEmail(to, subject, htmlContent);
+    }
+    
+	private String loadAndProcessTemplate(String username, String password) {
+		try {
+			
+            ClassPathResource resource = new ClassPathResource("templates/email-template.html");
+            String templateContent = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+
+            return templateContent
+                    .replace("{{username}}", username)
+                    .replace("{{password}}", password);
+        } catch (IOException e) {
+            throw new RuntimeException("Não foi possível carregar o template de e-mail", e);
+        }
+	}
+
+	private String generateFuncionarioUsername(Funcionario funcionario, String dominio) {
+		return String.valueOf(dominio + ".func" + funcionario.getId()).toUpperCase();
+	}
 
     private String extrairDominioEmail(String email) {
         int index = email.indexOf('@');
