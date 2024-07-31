@@ -6,19 +6,23 @@ import java.util.Objects;
 
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.Usuario;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@Entity @Table(name = "funcionario")
+@Entity
+@Table(name = "funcionario")
 public class Funcionario implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id @Column(name = "funcionario_id")
+    @Id
+    @Column(name = "funcionario_id")
     private Integer id;
 
     @Column(name = "nome_completo", nullable = false, length = 150)
@@ -30,7 +34,8 @@ public class Funcionario implements Serializable {
     @Column(name = "email", nullable = false, unique = true, length = 200)
     private String email;
 
-    @OneToOne(mappedBy = "funcionario")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     private Usuario usuario;
 
     public Integer getId() {

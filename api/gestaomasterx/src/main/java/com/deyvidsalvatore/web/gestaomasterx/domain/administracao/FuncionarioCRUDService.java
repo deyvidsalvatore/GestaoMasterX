@@ -1,15 +1,11 @@
 package com.deyvidsalvatore.web.gestaomasterx.domain.administracao;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StreamUtils;
 
 import com.deyvidsalvatore.web.gestaomasterx.config.EmailServiceConfig;
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.Funcionario;
@@ -18,6 +14,9 @@ import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.Usuario;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.UsuarioRepository;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.UsuarioRole;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.exceptions.UsuarioNaoEncontradoException;
+import com.deyvidsalvatore.web.gestaomasterx.utils.FuncionarioUtils;
+import com.deyvidsalvatore.web.gestaomasterx.utils.UsuarioUtils;
+import com.deyvidsalvatore.web.gestaomasterx.utils.EmailUtils;
 
 @Service
 public class FuncionarioCRUDService {
@@ -27,76 +26,61 @@ public class FuncionarioCRUDService {
     private final FuncionarioRepository funcionarioRepository;
     private final UsuarioRepository usuarioRepository;
     private final EmailServiceConfig emailServiceConfig;
-    
+    private final BCryptPasswordEncoder passwordEncoder;
+
     public FuncionarioCRUDService(
-    		FuncionarioRepository funcionarioRepository, 
-    		UsuarioRepository usuarioRepository,
-    		EmailServiceConfig emailServiceConfig
+            FuncionarioRepository funcionarioRepository, 
+            UsuarioRepository usuarioRepository,
+            EmailServiceConfig emailServiceConfig,
+            BCryptPasswordEncoder passwordEncoder
     ) {
         this.funcionarioRepository = funcionarioRepository;
         this.usuarioRepository = usuarioRepository;
-		this.emailServiceConfig = emailServiceConfig;
+        this.emailServiceConfig = emailServiceConfig;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     public void criarContaParaFuncionario(Funcionario funcionario) {
+        funcionario.setId(FuncionarioUtils.generateFuncionarioId());
+
         String email = funcionario.getEmail();
-        String dominio = extrairDominioEmail(email);
+        String partePrincipal = extrairPartePrincipalEmail(email);
 
-        try {
-            verificarSeJaUsuarioExiste(dominio);
-            LOG.info("Conta de usuário já existe para o domínio: {}", dominio);
-        } catch (UsuarioNaoEncontradoException e) {
-            Usuario usuario = new Usuario();
-            usuario.setUsername(generateFuncionarioUsername(funcionario, dominio));
-            usuario.setPassword(dominio + "@p4ssw0rd");
-            usuario.setRole(UsuarioRole.FUNCIONARIO);
-            usuario.setFuncionario(funcionario);
+        Usuario usuario = usuarioRepository.findByUsername(partePrincipal)
+                .orElseGet(() -> {
+                    Usuario novoUsuario = criarNovoUsuario(partePrincipal);
+                    novoUsuario.setPassword(passwordEncoder.encode(novoUsuario.getUsername() + "@p4ssw0rd"));
+                    usuarioRepository.save(novoUsuario);
+                    enviarCredenciaisAsync(funcionario.getEmail(), funcionario.getNomeCompleto(), novoUsuario.getUsername(), novoUsuario.getUsername() + "@p4ssw0rd");
+                    return novoUsuario;
+                });
 
-            this.usuarioRepository.save(usuario);
-            LOG.info("Nova conta de usuário criada com username: {}", dominio);
-        }
-
-        funcionario.setUsuario(usuarioRepository.findByUsername(dominio));
+        funcionario.setUsuario(usuario);
         this.funcionarioRepository.save(funcionario);
+        LOG.info("Administrador ::: Nova conta de usuário criada com username: {}", partePrincipal);
     }
 
-    public void enviarCredenciaisFuncionario(String to, String username, String password) {
-    	String subject = "Bem-vindo à Gestão MasterX - Suas Credenciais";
-        String htmlContent = loadAndProcessTemplate(username, password);
-        this.emailServiceConfig.sendEmail(to, subject, htmlContent);
+    private Usuario criarNovoUsuario(String username) {
+        Usuario usuario = new Usuario();
+        usuario.setId(UsuarioUtils.generateUsuarioId());
+        usuario.setUsername(username);
+        usuario.setRole(UsuarioRole.FUNCIONARIO);
+        return usuario;
     }
-    
-	private String loadAndProcessTemplate(String username, String password) {
-		try {
-			
-            ClassPathResource resource = new ClassPathResource("templates/email-template.html");
-            String templateContent = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
-            return templateContent
-                    .replace("{{username}}", username)
-                    .replace("{{password}}", password);
-        } catch (IOException e) {
-            throw new RuntimeException("Não foi possível carregar o template de e-mail", e);
-        }
-	}
+    @Async
+    public void enviarCredenciaisAsync(String to, String name, String username, String password) {
+        String subject = "Bem-vindo à Gestão MasterX - Suas Credenciais";
+        String htmlContent = EmailUtils.loadAndProcessTemplate(name, username, password);
+        emailServiceConfig.sendEmail(to, subject, htmlContent);
+    }
 
-	private String generateFuncionarioUsername(Funcionario funcionario, String dominio) {
-		return String.valueOf(dominio + ".func" + funcionario.getId()).toUpperCase();
-	}
-
-    private String extrairDominioEmail(String email) {
+    private String extrairPartePrincipalEmail(String email) {
         int index = email.indexOf('@');
-        if (index > 0 && index < email.length() - 1) {
-            return email.substring(index + 1);
+        if (index > 0) {
+            return email.substring(0, index);
         }
         throw new IllegalArgumentException("Email inválido: " + email);
-    }
-
-    private void verificarSeJaUsuarioExiste(String username) {
-        Optional<Usuario> usuario = Optional.ofNullable(this.usuarioRepository.findByUsername(username));
-        if (usuario.isEmpty()) {
-            throw new UsuarioNaoEncontradoException(username);
-        }
     }
 }

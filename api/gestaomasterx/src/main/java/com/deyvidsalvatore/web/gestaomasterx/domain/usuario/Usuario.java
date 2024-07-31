@@ -11,14 +11,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@Entity @Table(name = "usuario")
+@Entity
+@Table(name = "usuario")
 public class Usuario implements Serializable {
 	
-	@Serial private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "usuario_id")
@@ -27,15 +28,14 @@ public class Usuario implements Serializable {
 	@Column(name = "username", nullable = false, unique = true, length = 32)
 	private String username;
 	
-	@Column(name = "password", nullable = false, length = 64)
+	@Column(name = "senha", nullable = false, length = 64)
 	private String password;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
 	private UsuarioRole role;
 	
-    @OneToOne
-    @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
+    @OneToOne(mappedBy = "usuario")
     private Funcionario funcionario;
 
 	public Integer getId() {
@@ -94,5 +94,4 @@ public class Usuario implements Serializable {
 		Usuario other = (Usuario) obj;
 		return Objects.equals(id, other.id);
 	}
-
 }
