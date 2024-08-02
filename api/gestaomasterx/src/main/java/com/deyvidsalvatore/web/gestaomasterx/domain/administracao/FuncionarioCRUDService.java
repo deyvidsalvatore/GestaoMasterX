@@ -1,7 +1,16 @@
 package com.deyvidsalvatore.web.gestaomasterx.domain.administracao;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,10 +22,13 @@ import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.FuncionarioRepos
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.Usuario;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.UsuarioRepository;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.UsuarioRole;
-import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.exceptions.UsuarioNaoEncontradoException;
+import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioResponse;
+import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioRequest;
+import com.deyvidsalvatore.web.gestaomasterx.mappers.FuncionarioMapper;
+import com.deyvidsalvatore.web.gestaomasterx.rest.AdministracaoController;
+import com.deyvidsalvatore.web.gestaomasterx.utils.EmailUtils;
 import com.deyvidsalvatore.web.gestaomasterx.utils.FuncionarioUtils;
 import com.deyvidsalvatore.web.gestaomasterx.utils.UsuarioUtils;
-import com.deyvidsalvatore.web.gestaomasterx.utils.EmailUtils;
 
 @Service
 public class FuncionarioCRUDService {
@@ -27,19 +39,49 @@ public class FuncionarioCRUDService {
     private final UsuarioRepository usuarioRepository;
     private final EmailServiceConfig emailServiceConfig;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final PagedResourcesAssembler<FuncionarioResponse> funcionarioAssembler;
+    
+    public FuncionarioCRUDService(FuncionarioRepository funcionarioRepository, UsuarioRepository usuarioRepository,
+			EmailServiceConfig emailServiceConfig, BCryptPasswordEncoder passwordEncoder,
+			PagedResourcesAssembler<FuncionarioResponse> funcionarioAssembler) {
+		this.funcionarioRepository = funcionarioRepository;
+		this.usuarioRepository = usuarioRepository;
+		this.emailServiceConfig = emailServiceConfig;
+		this.passwordEncoder = passwordEncoder;
+		this.funcionarioAssembler = funcionarioAssembler;
+	}
 
-    public FuncionarioCRUDService(
-            FuncionarioRepository funcionarioRepository, 
-            UsuarioRepository usuarioRepository,
-            EmailServiceConfig emailServiceConfig,
-            BCryptPasswordEncoder passwordEncoder
-    ) {
-        this.funcionarioRepository = funcionarioRepository;
-        this.usuarioRepository = usuarioRepository;
-        this.emailServiceConfig = emailServiceConfig;
-        this.passwordEncoder = passwordEncoder;
+    public PagedModel<EntityModel<FuncionarioResponse>> findAllFuncionarios(Pageable pageable) {
+    	LOG.info("Administrador ::: Achando {} funcionários da página {}", pageable.getPageSize(), pageable.getPageNumber());
+        Page<Funcionario> funcionarioPage = funcionarioRepository.findAll(pageable);
+
+        Page<FuncionarioResponse> funcionarioResponsePage = funcionarioPage.map(funcionario -> {
+            FuncionarioResponse response = FuncionarioMapper.entityToResponse(funcionario);
+            response.add(Link.of("/api/funcionarios/" + funcionario.getId()).withSelfRel());
+            return response;
+        });
+
+        Link selfLink = Link.of("/api/funcionarios?page=" + pageable.getPageNumber() +
+                "&size=" + pageable.getPageSize() +
+                "&sort=" + pageable.getSort().toString());
+                
+        return funcionarioAssembler.toModel(funcionarioResponsePage, selfLink);
     }
+    
+	public EntityModel<FuncionarioResponse> findFuncionarioById(Integer id) {
+		LOG.info("Administrador ::: Achando funcionário pelo id: {}", id);
+	    Funcionario funcionario = acharFuncionarioExistente(id);
+	    
+	    FuncionarioResponse funcionarioResponse = FuncionarioMapper.entityToResponse(funcionario);
 
+	    EntityModel<FuncionarioResponse> funcionarioModel = EntityModel.of(funcionarioResponse);
+	    funcionarioModel.add(linkTo(methodOn(AdministracaoController.class)
+	            .findFuncionarioById(id)).withSelfRel());
+	    
+	    return funcionarioModel;
+	}
+
+	
     @Transactional
     public void criarContaParaFuncionario(Funcionario funcionario) {
         funcionario.setId(FuncionarioUtils.generateFuncionarioId());
@@ -60,7 +102,29 @@ public class FuncionarioCRUDService {
         this.funcionarioRepository.save(funcionario);
         LOG.info("Administrador ::: Nova conta de usuário criada com username: {}", partePrincipal);
     }
+    
+    @Transactional
+    public FuncionarioResponse atualizarFuncionario(Integer id, FuncionarioRequest dto) {
+        LOG.info("Administrador ::: Atualizando funcionário com ID: {}", id);
+        Funcionario funcionarioExistente = acharFuncionarioExistente(id);
+        funcionarioExistente.setNomeCompleto(dto.getNomeCompleto());
+        funcionarioExistente.setEmail(dto.getEmail());
+        funcionarioExistente.setCargo(dto.getCargo());
+        Funcionario funcionarioSalvo = funcionarioRepository.save(funcionarioExistente);
+        return FuncionarioMapper.entityToResponse(funcionarioSalvo);
+    }
 
+    @Transactional
+    public void deleteFuncionario(Integer id) {
+    	LOG.info("Administrador ::: Apagando um funcionário existente");
+        Funcionario funcionarioExistente = acharFuncionarioExistente(id);
+        this.funcionarioRepository.delete(funcionarioExistente);
+    }
+
+	private Funcionario acharFuncionarioExistente(Integer id) {
+		return funcionarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado com ID: " + id));
+	}
     private Usuario criarNovoUsuario(String username) {
         Usuario usuario = new Usuario();
         usuario.setId(UsuarioUtils.generateUsuarioId());

@@ -2,11 +2,11 @@ package com.deyvidsalvatore.web.gestaomasterx.mappers;
 
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.Funcionario;
 import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioResponse;
-import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.NewFuncionarioRequest;
+import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioRequest;
 
 public class FuncionarioMapper {
 	
-	public static Funcionario newRequestToEntity(NewFuncionarioRequest request) {
+	public static Funcionario newRequestToEntity(FuncionarioRequest request) {
 		Funcionario funcionario = new Funcionario();
 		funcionario.setNomeCompleto(request.getNomeCompleto());
 		funcionario.setCargo(request.getCargo());

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class NewFuncionarioRequest {
+public class FuncionarioRequest {
 
 	@NotNull(message = "O nome completo não pode ser nulo.")
 	@NotBlank(message = "O nome completo não pode estar em branco.")

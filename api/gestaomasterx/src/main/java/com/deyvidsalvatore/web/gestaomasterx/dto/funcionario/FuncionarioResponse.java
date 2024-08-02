@@ -1,8 +1,21 @@
 package com.deyvidsalvatore.web.gestaomasterx.dto.funcionario;
 
-public class FuncionarioResponse {
+import java.io.Serial;
+import java.io.Serializable;
 
-    private Integer id;
+import org.springframework.hateoas.RepresentationModel;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder(value = {"id", "nomeCompleto", "cargo", "email"})
+public class FuncionarioResponse extends RepresentationModel<FuncionarioResponse> implements Serializable {
+	
+	@Serial
+	private static final long serialVersionUID = 1L;
+
+	@JsonProperty("id")
+    private Integer key;
     private String nomeCompleto;
     private String cargo;
     private String email;
@@ -10,18 +23,18 @@ public class FuncionarioResponse {
     public FuncionarioResponse() {}
 
     public FuncionarioResponse(Integer id, String nomeCompleto, String cargo, String email) {
-        this.id = id;
+        this.key = id;
         this.nomeCompleto = nomeCompleto;
         this.cargo = cargo;
         this.email = email;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getKey() {
+        return key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setKey(Integer id) {
+        this.key = id;
     }
 
     public String getNomeCompleto() {
