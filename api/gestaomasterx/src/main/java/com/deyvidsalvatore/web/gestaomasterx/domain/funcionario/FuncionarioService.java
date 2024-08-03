@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.exceptions.FuncionarioNotFoundException;
@@ -28,6 +30,12 @@ public class FuncionarioService {
 		this.horasRepository = horasRepository;
 	}
 
+	public Page<HoraResponse> buscarHorasDoFuncionarioPaginado(Integer funcionarioId, Pageable pageable) {
+        Funcionario funcionario = findFuncionarioById(funcionarioId);
+        Page<RegistroHora> registrosPage = horasRepository.findByFuncionario(funcionario, pageable);
+        return registrosPage.map(registroHora -> horasToResponse(funcionario, registroHora));
+    }
+	
 	public HoraResponse atribuirHorasDoFuncionario(Integer funcionarioId, HoraRequest horas) {
 		Funcionario funcionario = findFuncionarioById(funcionarioId);
 		RegistroHora registroHora = new RegistroHora();
@@ -40,7 +48,7 @@ public class FuncionarioService {
 		return horasToResponse(funcionario, registroHora);
 	}
 
-	public ListaHorasResponse buscarHorasDoFuncionario(Integer funcionarioId) {
+	public ListaHorasResponse buscarHorasDoFuncionarioTotais(Integer funcionarioId) {
 		LOG.info("Funcionario ::: Buscando horas do funcionario de id {}", funcionarioId);
 		Funcionario funcionario = findFuncionarioById(funcionarioId);
 		List<RegistroHora> registros = horasRepository.findByFuncionario(funcionario);
@@ -51,6 +59,34 @@ public class FuncionarioService {
 		return new ListaHorasResponse(registros.size(), totalHoras, funcionarioId);
 	}
 
+	public HoraResponse atualizarHorasDoFuncionario(Integer funcionarioId, Integer registroHoraId, HoraRequest horasAtualizadas) {
+	    Funcionario funcionario = findFuncionarioById(funcionarioId);
+	    RegistroHora registroHora = findHorasById(registroHoraId);
+
+	    registroHora.setData(DataUtils.parseDate(horasAtualizadas.getData()));
+	    registroHora.setHoraEntrada(DataUtils.parseTime(horasAtualizadas.getHoraEntrada()));
+	    registroHora.setHoraSaida(DataUtils.parseTime(horasAtualizadas.getHoraSaida()));
+
+	    horasRepository.save(registroHora);
+	    LOG.info("Funcionario ::: Atualizando horas do funcionario de id {}", funcionarioId);
+
+	    return horasToResponse(funcionario, registroHora);
+	}
+	
+	public void removerHorasDoFuncionario(Integer funcionarioId, Integer registroHoraId) {
+	    findFuncionarioById(funcionarioId);
+	    RegistroHora registroHora = findHorasById(registroHoraId);
+	    this.horasRepository.delete(registroHora);
+	    LOG.info("Funcionario ::: Removendo horas do funcionario de id {}", funcionarioId);
+	}
+
+	private RegistroHora findHorasById(Integer registroHoraId) {
+		return horasRepository.findById(registroHoraId)
+	        .orElseThrow(() -> new IllegalArgumentException("Registro de horas não encontrado"));
+	}
+
+
+	
 	private HoraResponse horasToResponse(Funcionario funcionario, RegistroHora registroHora) {
 		return new HoraResponse(registroHora.getId(), funcionario.getId(), DataUtils.formatDate(registroHora.getData()),
 				DataUtils.formatTime(registroHora.getHoraEntrada()), DataUtils.formatTime(registroHora.getHoraSaida()),

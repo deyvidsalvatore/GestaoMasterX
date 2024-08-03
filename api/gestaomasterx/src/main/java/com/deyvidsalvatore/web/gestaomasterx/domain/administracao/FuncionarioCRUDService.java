@@ -57,11 +57,11 @@ public class FuncionarioCRUDService {
 
         Page<FuncionarioResponse> funcionarioResponsePage = funcionarioPage.map(funcionario -> {
             FuncionarioResponse response = FuncionarioMapper.entityToResponse(funcionario);
-            response.add(Link.of("/api/funcionarios/" + funcionario.getId()).withSelfRel());
+            response.add(Link.of("/api/v1/administrativo/funcionarios/" + funcionario.getId()).withSelfRel());
             return response;
         });
 
-        Link selfLink = Link.of("/api/funcionarios?page=" + pageable.getPageNumber() +
+        Link selfLink = Link.of("/api/v1/administrativo/funcionarios/?page=" + pageable.getPageNumber() +
                 "&size=" + pageable.getPageSize() +
                 "&sort=" + pageable.getSort().toString());
                 
