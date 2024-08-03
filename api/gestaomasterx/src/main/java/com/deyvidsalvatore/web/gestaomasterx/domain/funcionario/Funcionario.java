@@ -3,7 +3,9 @@ package com.deyvidsalvatore.web.gestaomasterx.domain.funcionario;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.List;
 
+import com.deyvidsalvatore.web.gestaomasterx.domain.horas.RegistroHora;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.Usuario;
 
 import jakarta.persistence.CascadeType;
@@ -11,6 +13,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -38,6 +41,9 @@ public class Funcionario implements Serializable {
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     private Usuario usuario;
 
+    @OneToMany(mappedBy = "funcionario")
+    private List<RegistroHora> registrosHoras;
+    
     public Integer getId() {
         return id;
     }
@@ -78,7 +84,15 @@ public class Funcionario implements Serializable {
         this.usuario = usuario;
     }
 
-    @Override
+    public List<RegistroHora> getRegistrosHoras() {
+		return registrosHoras;
+	}
+
+	public void setRegistrosHoras(List<RegistroHora> registrosHoras) {
+		this.registrosHoras = registrosHoras;
+	}
+
+	@Override
     public int hashCode() {
         return Objects.hash(id);
     }
