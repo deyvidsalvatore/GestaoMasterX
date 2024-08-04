@@ -2,6 +2,7 @@ package com.deyvidsalvatore.web.gestaomasterx.rest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.deyvidsalvatore.web.gestaomasterx.domain.feedback.dtos.FeedbackResponse;
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.FuncionarioService;
 import com.deyvidsalvatore.web.gestaomasterx.domain.horas.dtos.HoraRequest;
 import com.deyvidsalvatore.web.gestaomasterx.domain.horas.dtos.HoraResponse;
@@ -130,6 +132,47 @@ public class FuncionarioController {
         try {
             funcionarioService.removerHorasDoFuncionario(funcionarioId, registroHoraId);
             return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    /* Feedback atribuidos ao funcionário */
+    @GetMapping("/{funcionarioId}/feedbacks")
+    @Operation(summary = "Lista feedbacks atribuídos ao funcionário",
+               description = "Retorna uma lista paginada de feedbacks atribuídos ao funcionário.",
+               responses = {
+                   @ApiResponse(responseCode = "200", description = "Feedbacks retornados com sucesso"),
+                   @ApiResponse(responseCode = "400", description = "Parâmetro inválido fornecido"),
+                   @ApiResponse(responseCode = "404", description = "Funcionário não encontrado"),
+                   @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+               })
+    public ResponseEntity<PagedModel<EntityModel<FeedbackResponse>>> listarFeedbacksPaginados(
+            @PathVariable Integer funcionarioId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "asc") String sort) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort.equals("asc") ? Sort.Order.asc("data") : Sort.Order.desc("data")));
+        PagedModel<EntityModel<FeedbackResponse>> feedbacks = funcionarioService.listarFeedbacksPaginadosDoFuncionario(funcionarioId, pageable);
+        return ResponseEntity.ok(feedbacks);
+    }
+    
+    @GetMapping("/{funcionarioId}/feedbacks/{feedbackId}")
+    @Operation(summary = "Obtém um feedback específico atribuído ao funcionário",
+               description = "Retorna os detalhes de um feedback específico atribuído a um funcionário.",
+               responses = {
+                   @ApiResponse(responseCode = "200", description = "Feedback retornado com sucesso"),
+                   @ApiResponse(responseCode = "404", description = "Feedback ou funcionário não encontrado"),
+                   @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+               })
+    public ResponseEntity<EntityModel<FeedbackResponse>> obterFeedbackDoFuncionarioPorId(
+            @PathVariable Integer funcionarioId,
+            @PathVariable Integer feedbackId) {
+
+        try {
+            EntityModel<FeedbackResponse> feedbackEntityModel = funcionarioService.getFeedbackById(funcionarioId, feedbackId);
+            return ResponseEntity.ok(feedbackEntityModel);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

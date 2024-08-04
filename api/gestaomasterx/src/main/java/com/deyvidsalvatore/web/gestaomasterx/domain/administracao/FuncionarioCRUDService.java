@@ -19,11 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.deyvidsalvatore.web.gestaomasterx.config.EmailServiceConfig;
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.Funcionario;
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.FuncionarioRepository;
+import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.dtos.FuncionarioRequest;
+import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.dtos.FuncionarioResponse;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.Usuario;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.UsuarioRepository;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.UsuarioRole;
-import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioResponse;
-import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioRequest;
 import com.deyvidsalvatore.web.gestaomasterx.mappers.FuncionarioMapper;
 import com.deyvidsalvatore.web.gestaomasterx.rest.AdministracaoController;
 import com.deyvidsalvatore.web.gestaomasterx.utils.EmailUtils;
@@ -31,6 +31,7 @@ import com.deyvidsalvatore.web.gestaomasterx.utils.FuncionarioUtils;
 import com.deyvidsalvatore.web.gestaomasterx.utils.UsuarioUtils;
 
 @Service
+@Transactional
 public class FuncionarioCRUDService {
 
     private static final Logger LOG = LoggerFactory.getLogger(FuncionarioCRUDService.class);
@@ -81,8 +82,6 @@ public class FuncionarioCRUDService {
 	    return funcionarioModel;
 	}
 
-	
-    @Transactional
     public void criarContaParaFuncionario(Funcionario funcionario) {
         funcionario.setId(FuncionarioUtils.generateFuncionarioId());
 
@@ -103,7 +102,6 @@ public class FuncionarioCRUDService {
         LOG.info("Administrador ::: Nova conta de usuário criada com username: {}", partePrincipal);
     }
     
-    @Transactional
     public FuncionarioResponse atualizarFuncionario(Integer id, FuncionarioRequest dto) {
         LOG.info("Administrador ::: Atualizando funcionário com ID: {}", id);
         Funcionario funcionarioExistente = acharFuncionarioExistente(id);

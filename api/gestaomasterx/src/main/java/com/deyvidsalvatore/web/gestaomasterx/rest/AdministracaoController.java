@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deyvidsalvatore.web.gestaomasterx.domain.administracao.FuncionarioCRUDService;
-import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioRequest;
-import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioResponse;
+import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.dtos.FuncionarioRequest;
+import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.dtos.FuncionarioResponse;
 import com.deyvidsalvatore.web.gestaomasterx.mappers.FuncionarioMapper;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,8 +40,7 @@ public class AdministracaoController {
 	}
 
 	@Operation(summary = "Pega todos os funcionários por páginação", description = "Retorna os funcionários especificados pelo número da página, tamanho e ordem", tags = {
-			"Funcionários",
-			"GET" }, responses = { @ApiResponse(description = "Success", responseCode = "200", content = {
+			"Funcionários" }, responses = { @ApiResponse(description = "Success", responseCode = "200", content = {
 					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = FuncionarioResponse.class))) }),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
@@ -62,7 +61,7 @@ public class AdministracaoController {
 	}
 
 	@Operation(summary = "Pega um funcionário pelo ID", description = "Retorna as informações do funcionário especificado pelo ID.", tags = {
-			"Funcionários", "GET" }, responses = {
+			"Funcionários" }, responses = {
 					@ApiResponse(description = "Funcionário encontrado com sucesso", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FuncionarioResponse.class))),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),

@@ -3,8 +3,10 @@ package com.deyvidsalvatore.web.gestaomasterx.domain.funcionario;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.deyvidsalvatore.web.gestaomasterx.domain.feedback.Feedback;
 import com.deyvidsalvatore.web.gestaomasterx.domain.horas.RegistroHora;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.Usuario;
 
@@ -43,6 +45,12 @@ public class Funcionario implements Serializable {
 
     @OneToMany(mappedBy = "funcionario")
     private List<RegistroHora> registrosHoras;
+    
+    @OneToMany(mappedBy = "funcionario")
+    private List<Feedback> feedbacksRecebidos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "gestor")
+    private List<Feedback> feedbacksDados = new ArrayList<>();
     
     public Integer getId() {
         return id;
@@ -90,6 +98,22 @@ public class Funcionario implements Serializable {
 
 	public void setRegistrosHoras(List<RegistroHora> registrosHoras) {
 		this.registrosHoras = registrosHoras;
+	}
+	
+	public List<Feedback> getFeedbacksRecebidos() {
+		return feedbacksRecebidos;
+	}
+
+	public void setFeedbacksRecebidos(List<Feedback> feedbacksRecebidos) {
+		this.feedbacksRecebidos = feedbacksRecebidos;
+	}
+
+	public List<Feedback> getFeedbacksDados() {
+		return feedbacksDados;
+	}
+
+	public void setFeedbacksDados(List<Feedback> feedbacksDados) {
+		this.feedbacksDados = feedbacksDados;
 	}
 
 	@Override

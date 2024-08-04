@@ -1,4 +1,4 @@
-package com.deyvidsalvatore.web.gestaomasterx.dto.funcionario;
+package com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

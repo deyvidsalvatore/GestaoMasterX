@@ -1,4 +1,4 @@
-package com.deyvidsalvatore.web.gestaomasterx.dto.funcionario;
+package com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.dtos;
 
 import java.io.Serial;
 import java.io.Serializable;

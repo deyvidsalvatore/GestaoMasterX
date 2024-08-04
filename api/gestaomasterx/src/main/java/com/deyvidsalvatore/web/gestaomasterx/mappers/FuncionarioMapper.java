@@ -1,8 +1,8 @@
 package com.deyvidsalvatore.web.gestaomasterx.mappers;
 
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.Funcionario;
-import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioResponse;
-import com.deyvidsalvatore.web.gestaomasterx.dto.funcionario.FuncionarioRequest;
+import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.dtos.FuncionarioRequest;
+import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.dtos.FuncionarioResponse;
 
 public class FuncionarioMapper {
 	
