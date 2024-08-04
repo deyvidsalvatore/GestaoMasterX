@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.deyvidsalvatore.web.gestaomasterx.domain.departamento.Departamento;
 import com.deyvidsalvatore.web.gestaomasterx.domain.feedback.Feedback;
 import com.deyvidsalvatore.web.gestaomasterx.domain.horas.RegistroHora;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.Usuario;
@@ -15,6 +16,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -51,6 +54,14 @@ public class Funcionario implements Serializable {
 
     @OneToMany(mappedBy = "gestor")
     private List<Feedback> feedbacksDados = new ArrayList<>();
+    
+    @ManyToMany
+    @JoinTable(
+        name = "gestor_departamento",
+        joinColumns = @JoinColumn(name = "funcionario_id"),
+        inverseJoinColumns = @JoinColumn(name = "departamento_id")
+    )
+    private List<Departamento> departamentos = new ArrayList<>();
     
     public Integer getId() {
         return id;
@@ -114,6 +125,14 @@ public class Funcionario implements Serializable {
 
 	public void setFeedbacksDados(List<Feedback> feedbacksDados) {
 		this.feedbacksDados = feedbacksDados;
+	}
+
+	public List<Departamento> getDepartamentos() {
+		return departamentos;
+	}
+
+	public void setDepartamentos(List<Departamento> departamentos) {
+		this.departamentos = departamentos;
 	}
 
 	@Override
