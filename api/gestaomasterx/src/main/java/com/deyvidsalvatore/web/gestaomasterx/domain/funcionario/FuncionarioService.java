@@ -122,7 +122,7 @@ public class FuncionarioService {
                 // Link para o feedback específico
                 Link selfLink = WebMvcLinkBuilder.linkTo(
                     WebMvcLinkBuilder.methodOn(FuncionarioController.class)
-                    .obterFeedbackDoFuncionarioPorId(funcionarioId, feedback.getId()))
+                    .obterFeedbackDoFuncionarioPorId(funcionarioId, feedback.getId(), null))
                     .withSelfRel();
 
                 return EntityModel.of(response, selfLink);
@@ -131,7 +131,7 @@ public class FuncionarioService {
 
         Link selfLink = WebMvcLinkBuilder.linkTo(
             WebMvcLinkBuilder.methodOn(FuncionarioController.class)
-            .listarFeedbacksPaginados(funcionarioId, pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString()))
+            .listarFeedbacksPaginados(funcionarioId, pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString(), null))
             .withSelfRel();
 
         return PagedModel.of(
@@ -158,7 +158,7 @@ public class FuncionarioService {
 
         Link selfLink = WebMvcLinkBuilder.linkTo(
             WebMvcLinkBuilder.methodOn(FuncionarioController.class)
-            .obterFeedbackDoFuncionarioPorId(funcionarioId, feedbackId))
+            .obterFeedbackDoFuncionarioPorId(funcionarioId, feedbackId, null))
             .withSelfRel();
 
         feedbackEntityModel.add(selfLink.withSelfRel());
@@ -189,7 +189,7 @@ public class FuncionarioService {
 
                 Link selfLink = WebMvcLinkBuilder.linkTo(
                     WebMvcLinkBuilder.methodOn(GestorController.class)
-                    .getFeedbackById(gestorId, feedback.getId()))
+                    .getFeedbackById(gestorId, feedback.getId(), null))
                     .withSelfRel();
 
                 return EntityModel.of(response, selfLink);
@@ -198,7 +198,7 @@ public class FuncionarioService {
 
         Link selfLink = WebMvcLinkBuilder.linkTo(
             WebMvcLinkBuilder.methodOn(GestorController.class)
-            .listarFeedbacksAtribuidos(gestorId, pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString()))
+            .listarFeedbacksAtribuidos(gestorId, pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString(), null))
             .withSelfRel();
 
         PagedModel<EntityModel<FeedbackResponse>> pagedModel = PagedModel.of(

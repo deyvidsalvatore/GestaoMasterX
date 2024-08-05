@@ -12,7 +12,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,11 +39,11 @@ public class FuncionarioCRUDService {
     private final FuncionarioRepository funcionarioRepository;
     private final UsuarioRepository usuarioRepository;
     private final EmailServiceConfig emailServiceConfig;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final PagedResourcesAssembler<FuncionarioResponse> funcionarioAssembler;
     
     public FuncionarioCRUDService(FuncionarioRepository funcionarioRepository, UsuarioRepository usuarioRepository,
-			EmailServiceConfig emailServiceConfig, BCryptPasswordEncoder passwordEncoder,
+			EmailServiceConfig emailServiceConfig, PasswordEncoder passwordEncoder,
 			PagedResourcesAssembler<FuncionarioResponse> funcionarioAssembler) {
 		this.funcionarioRepository = funcionarioRepository;
 		this.usuarioRepository = usuarioRepository;
