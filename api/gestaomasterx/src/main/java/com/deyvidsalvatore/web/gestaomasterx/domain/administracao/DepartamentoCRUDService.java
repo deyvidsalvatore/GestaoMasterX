@@ -24,7 +24,6 @@ import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.FuncionarioRepos
 import com.deyvidsalvatore.web.gestaomasterx.domain.funcionario.dtos.FuncionarioResponse;
 import com.deyvidsalvatore.web.gestaomasterx.domain.usuario.UsuarioRole;
 import com.deyvidsalvatore.web.gestaomasterx.rest.AdministracaoController;
-
 @Service
 @Transactional
 public class DepartamentoCRUDService {

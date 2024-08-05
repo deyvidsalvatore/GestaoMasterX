@@ -112,13 +112,33 @@ public class FuncionarioCRUDService {
         return FuncionarioMapper.entityToResponse(funcionarioSalvo);
     }
 
-    @Transactional
     public void deleteFuncionario(Integer id) {
     	LOG.info("Administrador ::: Apagando um funcionário existente");
         Funcionario funcionarioExistente = acharFuncionarioExistente(id);
         this.funcionarioRepository.delete(funcionarioExistente);
     }
 
+    public void promoverParaGestor(Integer funcionarioId) {
+        LOG.info("Administrador ::: Promovendo funcionário com ID: {} para gestor", funcionarioId);
+
+        Funcionario funcionario = funcionarioRepository.findById(funcionarioId)
+                .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado com ID: " + funcionarioId));
+
+        Usuario usuario = funcionario.getUsuario();
+        if (usuario == null) {
+            throw new IllegalStateException("Usuário associado ao funcionário não encontrado.");
+        }
+
+        if (usuario.getRole().equals(UsuarioRole.GESTOR)) {
+            LOG.warn("Administrador ::: Funcionário com ID: {} já é um gestor.", funcionarioId);
+            return;
+        }
+
+        usuario.setRole(UsuarioRole.GESTOR);
+        usuarioRepository.save(usuario);
+        LOG.info("Administrador ::: Funcionário com ID: {} promovido para gestor com sucesso.", funcionarioId);
+    }
+    
 	private Funcionario acharFuncionarioExistente(Integer id) {
 		return funcionarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado com ID: " + id));

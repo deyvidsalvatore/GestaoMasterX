@@ -20,4 +20,15 @@ public class FuncionarioUtils {
 
         return id;
     }
+    
+    public static int generateDepartamentoId() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+        String formattedDateTime = now.format(formatter);
+        long id = Long.parseLong(formattedDateTime);
+        if (id > Integer.MAX_VALUE) {
+            id = id % Integer.MAX_VALUE;
+        }  
+        return (int) id;
+    }
 }

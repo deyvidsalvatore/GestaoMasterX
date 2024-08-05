@@ -7,5 +7,6 @@ INSERT INTO `gestaomasterx_db`.`departamento` (`departamento_id`, `nome`, `descr
 
 -- Insere dados na tabela gestor_departamento
 INSERT INTO `gestaomasterx_db`.`gestor_departamento` (`funcionario_id`, `departamento_id`) VALUES
-(201, 2),  -- João Silva gerencia TI
-(202, 3);  -- Ana Costa gerencia Marketing
+(201, 2),
+(202, 3),
+(202, 2);
