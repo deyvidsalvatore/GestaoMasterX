@@ -1,0 +1,648 @@
+{
+	"info": {
+		"_postman_id": "205fb793-fcb7-4dba-9133-35e996ac9ebd",
+		"name": "GestaoMasterX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34747193"
+	},
+	"item": [
+		{
+			"name": "Administrativo",
+			"item": [
+				{
+					"name": "Funcionario",
+					"item": [
+						{
+							"name": "Gerar uma conta para o novo funcionário",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nomeCompleto\": \"Clécio de Andrdade Alemida\",\r\n    \"email\": \"deyvidsantosdasilva2002@gmail.com\",\r\n    \"cargo\": \"Desenvolvedor em TI\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{administrativo_uri}}/funcionarios",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"funcionarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pegar todos os funcionários por página",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{administrativo_uri}}/funcionarios",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"funcionarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pegar funcionário por ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{administrativo_uri}}/funcionarios/178435106",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"funcionarios",
+										"178435106"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar funcionário existente por ID",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nomeCompleto\": \"Deyvid Santos Da Silva\",\r\n    \"cargo\": \"Desenvolvedor Front-end\",\r\n    \"email\": \"deyvidsantos.salvatore@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{administrativo_uri}}/funcionarios/178435106",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"funcionarios",
+										"178435106"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apagar funcionário existente",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{administrativo_uri}}/funcionarios/337915106",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"funcionarios",
+										"337915106"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Departamentos",
+					"item": [
+						{
+							"name": "Pegar departamento por ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{administrativo_uri}}/departamentos/7",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"departamentos",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar todos os departamentos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{administrativo_uri}}/departamentos",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"departamentos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Criar um novo departamento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Desenvolvimento de Software\",\r\n    \"descricao\": \"Departamento responsável pelo desenvolvimento e manutenção de software.\",\r\n    \"recursos\": \"Recursos alocados para ferramentas de desenvolvimento, treinamento e infraestrutura.\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{administrativo_uri}}/departamentos",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"departamentos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar um departamento existente",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Suporte\",\r\n    \"descricao\": \"Departamento responsável pelo desenvolvimento e manutenção de software.\",\r\n    \"recursos\": \"Recursos alocados para ferramentas de desenvolvimento, treinamento e infraestrutura.\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{administrativo_uri}}/departamentos/6",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"departamentos",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apagar Departamento por ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{administrativo_uri}}/departamentos/7",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"departamentos",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assocar 1 gestor para Departamento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{administrativo_uri}}/departamentos/7/gestores/203",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"departamentos",
+										"7",
+										"gestores",
+										"203"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Tirar todos os gestores do departamento",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{administrativo_uri}}/departamentos/7/gestores",
+									"host": [
+										"{{administrativo_uri}}"
+									],
+									"path": [
+										"departamentos",
+										"7",
+										"gestores"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Funcionários",
+			"item": [
+				{
+					"name": "Atribuir horas a um funcionário",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"04/08/2024\",\r\n    \"horaEntrada\": \"08:00\",\r\n    \"horaSaida\": \"17:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{funcionariosUrl}}/:id/horas",
+							"host": [
+								"{{funcionariosUrl}}"
+							],
+							"path": [
+								":id",
+								"horas"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "202"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pegar todas as horas dos funcionários",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{funcionariosUrl}}/:id/horas",
+							"host": [
+								"{{funcionariosUrl}}"
+							],
+							"path": [
+								":id",
+								"horas"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "101"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar horas existente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"04/08/2024\",\r\n    \"horaEntrada\": \"07:00\",\r\n    \"horaSaida\": \"18:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{funcionariosUrl}}/202/horas/6",
+							"host": [
+								"{{funcionariosUrl}}"
+							],
+							"path": [
+								"202",
+								"horas",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apagar horas existentes",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{funcionariosUrl}}/202/horas/6",
+							"host": [
+								"{{funcionariosUrl}}"
+							],
+							"path": [
+								"202",
+								"horas",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pegar o total de horas do funcionário",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{funcionariosUrl}}/:id/horas/totais",
+							"host": [
+								"{{funcionariosUrl}}"
+							],
+							"path": [
+								":id",
+								"horas",
+								"totais"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver feedbacks atribuidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{funcionariosUrl}}/:id/feedbacks/2",
+							"host": [
+								"{{funcionariosUrl}}"
+							],
+							"path": [
+								":id",
+								"feedbacks",
+								"2"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "103"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gestor",
+			"item": [
+				{
+					"name": "[Gestor] Visualizar quais feedbacks concedeu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gestorUrl}}/201/feedbacks",
+							"host": [
+								"{{gestorUrl}}"
+							],
+							"path": [
+								"201",
+								"feedbacks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Gestor] Visualizar feedback por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gestorUrl}}/201/feedbacks/feedback/3",
+							"host": [
+								"{{gestorUrl}}"
+							],
+							"path": [
+								"201",
+								"feedbacks",
+								"feedback",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Gestor] Atribuir feedback a um funcionário",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"comentario\": \"Excelente desempenho no último trimestre. Demonstrou grande capacidade de liderança e inovação em projetos críticos. Continue assim!\",\r\n  \"meta\": \"Atingir 15% de crescimento na satisfação do cliente e liderar pelo menos dois novos projetos até o final do próximo trimestre.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{gestorUrl}}/201/feedbacks/103",
+							"host": [
+								"{{gestorUrl}}"
+							],
+							"path": [
+								"201",
+								"feedbacks",
+								"103"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Gestor] Atualizar um feedback de um funcionário",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"comentario\": \"Ótimo desempenho no último trimestre. Demonstrou grande capacidade de liderança e inovação em projetos críticos. Continue assim!\",\r\n  \"meta\": \"Obtenha 15% de crescimento na satisfação do cliente e liderar pelo menos dois novos projetos até o final do próximo trimestre.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{gestorUrl}}/201/feedbacks/feedback/3",
+							"host": [
+								"{{gestorUrl}}"
+							],
+							"path": [
+								"201",
+								"feedbacks",
+								"feedback",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Gestor] Apagar um Feedback existente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gestorUrl}}/201/feedbacks/feedback/6",
+							"host": [
+								"{{gestorUrl}}"
+							],
+							"path": [
+								"201",
+								"feedbacks",
+								"feedback",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"carlos.oliveira\",\r\n    \"password\": \"senha123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "administrativo_uri",
+			"value": "http://localhost:8080/api/v1/administrativo",
+			"type": "string"
+		},
+		{
+			"key": "funcionariosUrl",
+			"value": "http://localhost:8080/api/v1/funcionarios",
+			"type": "string"
+		},
+		{
+			"key": "gestorUrl",
+			"value": "http://localhost:8080/api/v1/gestores",
+			"type": "string"
+		}
+	]
+}
